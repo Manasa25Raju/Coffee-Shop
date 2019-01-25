@@ -1,50 +1,43 @@
 <template>
     <div class="hello">
-        <div id="todo-list-example" class="container">
+      <div class="">
+      </div>
+        <div class="container">
             <div class="row">
-               <div class ="div.col-md-6 mx-auto">
-                   <h1 class = "text-center">Ordered list </h1>
-                <!-- <form v-on:submit.prevent= "addNewTask">
-                    <label for = "tasknameinput"> Task Name </label>
-                    <input v-model= "taskname" type="text" id="tasknameinput" class= "form-control" placeholder="Add New Task">
-                    <button v-if= "this.isEdit == false" type = "submit" class = "btn btn success btn-block mt-3">
-                        Submit
-                    </button>
-                    <button v-else v-on:click= "updateTask()" type = "button" class = "btn btn primary btn-block mt-3">
-                        Update
-                    </button>
-            </form>-->
-            <table class="table">
+               <div class="table-responsive-lg"><h1 class = "text-center">Ordered list </h1>
+            <table class="table table-hover table-bordered ">
+               <caption>List of Orders</caption>
+              <thead class="thead-secondary">
               <tr>
-                <td class = "text-left">Order Id</td>
-                <td>beverage_type</td>
-                  <td>size</td>
-                    <td>cream</td>
-                      <td>sugar</td>
-                        <td>extra_shots</td>
-                  <td>milk_type</td>
-                    <td>flavour</td>
-                  <td>quantity</td>
-                <td class = "text-right"> Paid Status </td>
-                <td class = "text-right"> Order Processed</td>
-            </tr>
-            <tr v-for= "(order) in orders"
+                <th scope="col">Order Number</th>
+                <th scope="col">beverage_type</th>
+                <th scope="col">size</th>
+                <th scope="col">cream</th>
+                <th scope="col">sugar</th>
+                <th scope="col">extra_shots</th>
+                <th scope="col">milk_type</th>
+                <th scope="col">flavour</th>
+                <th scope="col">quantity</th>
+                <th scope="col"> Paid Status </th>
+                <th scope="col"> Order Processed</th>
+            </tr></thead><tbody><tr class="" v-for= "(order) in orders"
                 v-bind:key= "order.order_id"
-                v-bind:title = "order.size">
-                <td class = "text-left">{{order.order_id}}</td>
+                v-bind:title = "order.size" scope="row">
+                <td>{{order.order_id}}</td>
                 <td>{{order.beverage_type}}</td>
-                  <td>{{order.size}}</td>
-                    <td>{{order.cream}}</td>
-                      <td>{{order.sugar}}</td>
-                        <td>{{order.extra_shots}}</td>
-                  <td>{{order.milk_type}}</td>
-                    <td>{{order.flavour}}</td>
-                  <td>{{order.quantity}}</td>
-                <td class = "text-right">
-                    <button class=" btn btn-info" v-on:click= "editTask(todo.task_name,todo.id)">Paid</button></td>
-                  <td class = "text-right"><button class=" btn btn-danger" v-on:click= "deleteTask(todo.id)">Order Prossed</button>
+                <td>{{order.size}}</td>
+                <td>{{order.cream}}</td>
+                <td>{{order.sugar}}</td>
+                <td>{{order.extra_shots}}</td>
+                <td>{{order.milk_type}}</td>
+                <td>{{order.flavour}}</td>
+                <td>{{order.quantity}}</td>
+                <td>
+                  <button class=" btn btn-primary" v-on:click= "goToPayment()">Paid</button></td>
+                  <td><button class=" btn btn-success " v-on:click= "deleteTask(todo.id)">Order Prossed</button>
                 </td>
             </tr>
+            </tbody>
             </table>
             </div>
 
