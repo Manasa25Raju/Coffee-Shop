@@ -18,12 +18,11 @@
                 <th scope="col">milk_type</th>
                 <th scope="col">flavour</th>
                 <th scope="col">quantity</th>
-                <th scope="col"> Paid Status </th>
                 <th scope="col"> Order Processed</th>
             </tr></thead><tbody><tr class="" v-for= "(order) in orders"
                 v-bind:key= "order.order_id"
                 v-bind:title = "order.size" scope="row">
-                <td>{{order.order_id}}</td>
+                <td>{{order.orderId}}</td>
                 <td>{{order.beverage_type}}</td>
                 <td>{{order.size}}</td>
                 <td>{{order.cream}}</td>
@@ -32,13 +31,12 @@
                 <td>{{order.milk_type}}</td>
                 <td>{{order.flavour}}</td>
                 <td>{{order.quantity}}</td>
-                <td>
-                  <button class=" btn btn-primary" v-on:click= "goToPayment()">Paid</button></td>
-                  <td><button class=" btn btn-success " v-on:click= "deleteTask(todo.id)">Order Prossed</button>
-                </td>
+                <td><button class=" btn btn-success " v-on:click= "deleteOrder(order.orderId)">Order Prossed</button></td>
             </tr>
             </tbody>
             </table>
+            <button class=" btn btn-info " v-on:click= "signOut">Log Out</button>
+            <router-link to="/review" class=" btn btn-info">Reviews</router-link>
             </div>
 
         </div>
@@ -49,12 +47,13 @@
 </template>
 <script>
 import axios from 'axios'
+import router from '../router'
 
 export default {
   data () {
     return {
       orders: [],
-      order_id: '',
+      orderId: '',
       Registration_id: '',
       beverage_type: '',
       size: '',
@@ -63,7 +62,9 @@ export default {
       extra_shots: '',
       milk_type: '',
       flavour: '',
-      quantity: ''
+      quantity: '',
+      password: '',
+      email: localStorage.getItem('email')
     }
   },
   mounted () {
@@ -71,15 +72,39 @@ export default {
   },
   methods: {
     getTasks () {
-      axios.get('/api/orders').then(
-        result => {
-          console.log(result.data)
-          this.orders = result.data
-        },
-        error => {
-          console.error(error)
-        }
-      )
+      if (this.email) {
+        axios.get('/api/orders').then(
+          result => {
+            console.log(result.data)
+            this.orders = result.data
+          },
+          error => {
+            console.error(error)
+          }
+        )
+      } else {
+        alert('Kindly Login ')
+        router.push('/sign')
+      }
+    },
+    deleteOrder (orderId) {
+      alert('Is the Order Processed?')
+      axios.delete(`/api/deleteOrder/${orderId}`)
+        .then((res) => {
+          // this.orderId = ''
+          this.getTasks()
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    signOut () {
+      axios.get('/api/signOut')
+        .then((res) => {
+          localStorage.clear()
+          router.push({name: 'Welcome'})
+        })
     }
   }
 }

@@ -4,7 +4,7 @@ const db = require("../database/db.js")
 module.exports = db.Sequelize.define(
 "order_tab",
 {
-    order_id:{
+    orderId:{
         type : Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement:true

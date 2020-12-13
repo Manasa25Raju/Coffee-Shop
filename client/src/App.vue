@@ -3,13 +3,12 @@
     <div class="float-left">
       <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
         <img src="./assets/images.jpg" id="logo">
-    <div class="nav-item">
+    <div class="nav-item float-left">
     <router-link to="/">About</router-link> |
      <router-link to="/Register">Register</router-link> |
-     <router-link to="/OrderMenu">Order</router-link> |
-     <router-link to="/OrderedList">View Orders</router-link> |
-     <router-link to="/signOut">SignOut</router-link></div>
-    <div class="float-right"></div>
+     <router-link to="/team">Contact Us</router-link> |
+     <router-link to="/menu">Menu</router-link> |
+     <router-link to="/sign">SignIn</router-link></div>
     </nav>
     </div>
          <router-view></router-view>

@@ -16,7 +16,7 @@
                     <input v-model= "emailid" type="email" id="emailidinput" class= "form-control" placeholder="Email Id" v-validate="'required|email'" name="emailId">
                     <p class="alert" v-if="errors.has('emailId')">{{ errors.first('emailId') }}</p>
                     <br>
-                    <input v-model= "phonenumber" type="text" id="phonenumberinput" class= "form-control" placeholder="Phone Number" v-validate="'digits:10|'" name="phoneNo">
+                    <input v-model= "phonenumber" type="text" id="phonenumberinput" class= "form-control" placeholder="Phone Number" v-validate="'digits:10'" name="phoneNo">
                     <p class="alert" v-if="errors.has('phoneNo')">{{ errors.first('phoneNo') }}</p>
                     <br>
                     <input v-model= "password" type="password" id="passwordinput" class= "form-control" placeholder="Password" v-validate="'required|min:6'" name="password">
@@ -34,6 +34,7 @@
 </template>
 <script>
 import axios from 'axios'
+import router from '../router'
 export default {
   data () {
     return {
@@ -55,6 +56,8 @@ export default {
           this.emailid = ''
           this.phonenumber = ''
           this.password = ''
+          alert('You Registered Successfully')
+          router.push('/')
         }
       })
     }

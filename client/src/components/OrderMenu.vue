@@ -1,6 +1,14 @@
 <template>
     <div class="row-center">
-            <div class="form-group">
+      <div id="App" class="card text-white bg-danger" >
+      <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+    <div class="nav-item float-right">
+    <button class=" btn btn-info " v-on:click= "signOut">Log Out</button>
+     </div>
+    </nav>
+         <router-view></router-view>
+  </div>
+      <div class="form-group">
               <h1 class="text-center">MENU</h1>
               <form v-on:submit.prevent="addNewItem">
                 <div class>
@@ -62,6 +70,7 @@
                   v-model="picked_3"
                   class="custom-control-input"
                 >
+                <input type="radio" id="three" value="Fat" v-model="picked_3">
                 <label for="one">Fat</label>
                 <input type="radio" id="two" value="Skimmed" v-model="picked_3">
                 <label for="two">Skimmed</label>
@@ -93,21 +102,22 @@
                 <b>
                   <label for="reginput">email:</label>
                 </b>
-                <input v-model="reg" type="email" id="reginput" placeholder="email">
+                <input v-model="reg" type="email" id="reginput" placeholder="email" readonly>
                 <br>
-                <button v-if="this.isEdit == false" type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
               </form>
             </div>
           </div>
 </template>
 <script>
 import axios from 'axios'
+import router from '../router'
 export default {
   data () {
     return {
       todos: [],
       id: '',
-      reg: '',
+      reg: localStorage.getItem('email'),
       picked: '',
       selected: '',
       picked_1: '',
@@ -116,13 +126,13 @@ export default {
       picked_3: '',
       selected_2: '',
       taskquantity: '',
-      isEdit: false
+      email: ''
     }
   },
   methods: {
     addNewItem () {
-      axios
-        .post('/api/orderMenu', {
+      if (this.reg) {
+        axios.post('/api/orderMenu', {
           registration_id: this.reg,
           beverage_type: this.picked,
           size: this.selected,
@@ -133,19 +143,37 @@ export default {
           flavour: this.selected_2,
           quantity: this.taskquantity
         })
-      this.$validator.validateAll().then(res => {
-        this.reg = ''
-        this.picked = ''
-        this.selected = ''
-        this.picked_1 = ''
-        this.picked_2 = ''
-        this.selected_1 = ''
-        this.picked_3 = ''
-        this.selected_2 = ''
-        this.taskquantity = ''
-      })
-        .catch(err => {
-          console.log(err)
+        this.$validator.validateAll().then((res) => {
+          if (res) {
+            this.reg = ''
+            this.picked = ''
+            this.selected = ''
+            this.picked_1 = ''
+            this.picked_2 = ''
+            this.selected_1 = ''
+            this.picked_3 = ''
+            this.selected_2 = ''
+            this.taskquantity = ''
+            router.push('/payment')
+          }
+        })
+          .catch(err => {
+            if ((err.status === 400)) {
+              this.email = ''
+              this.password = ''
+              router.push({name: 'sign'})
+            }
+          })
+      } else {
+        alert('Kindly Login ')
+        router.push('/sign')
+      }
+    },
+    signOut () {
+      axios.get('/api/signOut')
+        .then((res) => {
+          localStorage.clear()
+          router.push({name: 'Welcome'})
         })
     }
   }
